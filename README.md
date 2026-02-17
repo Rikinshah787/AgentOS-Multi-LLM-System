@@ -1,6 +1,8 @@
 # AgentOS — AI Village Orchestrator
 
-Orchestrate unlimited AI models simultaneously inside VS Code. Every model with an API key becomes an agent in a gamified Clash-of-Clans-style village dashboard.
+Connect your real LLM models and get tasks done. Orchestrate unlimited AI models simultaneously inside VS Code (or Cursor). Every model with an API key becomes an agent in a gamified village dashboard.
+
+**Repo:** [github.com/Rikinshah787/AgentOS-Multi-LLM-System](https://github.com/Rikinshah787/AgentOS-Multi-LLM-System)
 
 Works with **any OpenAI-compatible API** (Grok, Mistral, Groq, Together, DeepSeek, Ollama, LM Studio), plus **Gemini** (Antigravity), **Claude** (Anthropic), **Cursor AI**, and **GitHub Copilot**.
 
@@ -8,10 +10,10 @@ Works with **any OpenAI-compatible API** (Grok, Mistral, Groq, Together, DeepSee
 
 1. Open any project in VS Code (or Cursor)
 2. AgentOS extension boots automatically
-3. Dashboard opens at `http://localhost:3000` — your agent village
+3. Dashboard runs at `http://localhost:3000` — your agent village
 4. Add models by editing `agent_os/agents.json` or using the dashboard UI
 5. Create tasks — agents work autonomously
-6. Watch the village: agents light up, energy drains, XP ticks, tasks complete
+6. Watch the village: agents light up, XP ticks, tasks complete
 
 ## Architecture
 
@@ -38,29 +40,51 @@ VS Code (or Cursor) — the only editor
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - VS Code 1.85+ (or Cursor)
-- At least one API key (OpenAI, xAI, Google, Anthropic, etc.)
+- At least one API key (OpenAI, xAI, Google, Anthropic, Mistral, Groq, NVIDIA NIM, etc.)
 
 ### Install
 
 ```bash
 # Clone the repo
-git clone <repo-url> && cd agent-os
+git clone https://github.com/Rikinshah787/AgentOS-Multi-LLM-System.git
+cd AgentOS-Multi-LLM-System
 
-# Install extension dependencies
+# Install root dependencies
 npm install
 
 # Install dashboard dependencies
 cd dashboard && npm install && cd ..
 
-# Build everything
+# Build extension + dashboard
 npm run compile
 ```
 
+### Configure API Keys
+
+Create a **`.env`** file in the project root (same folder as `package.json`). Only agents with a valid key will show as online.
+
+```env
+# Optional — only set the ones you use
+OPENAI_API_KEY=
+XAI_API_KEY=
+GOOGLE_API_KEY=
+ANTHROPIC_API_KEY=
+MISTRAL_API_KEY=
+GROQ_API_KEY=
+NVIDIA_KIMI_API_KEY=
+NVIDIA_API_KEY=
+```
+
+**Important:** `.env` is in `.gitignore` — never commit real API keys.
+
+You can also set environment variables in your shell instead of using `.env`.
+
 ### Configure Agents
 
-Edit `agent_os/agents.json` to add your models:
+Edit `agent_os/agents.json` to add or change models. Each agent can specify `apiKeyEnvVar` (e.g. `MISTRAL_API_KEY`) so the server knows which key to use.
 
 ```json
 {
@@ -79,26 +103,32 @@ Edit `agent_os/agents.json` to add your models:
 }
 ```
 
-Set your API keys as environment variables:
-
-```bash
-export OPENAI_API_KEY=sk-...
-export XAI_API_KEY=xai-...
-export GOOGLE_API_KEY=AIza...
-export ANTHROPIC_API_KEY=sk-ant-...
-```
-
 ### Run
 
-1. Open the project in VS Code
+**Option A — With VS Code / Cursor (full extension)**
+
+1. Open the project in VS Code or Cursor
 2. Press `F5` to launch the extension in development mode
 3. Open `http://localhost:3000` to see the village dashboard
 4. Use command palette: `AgentOS: Create Task` or `AgentOS: Set Goal`
 
+**Option B — Standalone dev server (no extension)**
+
+1. Ensure `.env` is set up and `npm run compile` has been run once
+2. Start the backend and serve the dashboard:
+
+   ```bash
+   node dev-server.js
+   ```
+
+3. Open `http://localhost:3000` in your browser. Create tasks from the dashboard; the server will route them to available agents.
+
+If the dashboard frontend was built with `npm run compile`, it is served from `dashboard/dist`. For live frontend development, run `npm run dev:dashboard` in another terminal (Vite on port 3001) and connect to the backend on port 3000.
+
 ### Three Ways to Add Agents
 
 1. **Config file** — edit `agent_os/agents.json` directly
-2. **Dashboard UI** — click "Add Agent" button in the village
+2. **Dashboard UI** — click "Add Agent" in the village
 3. **Command palette** — run `AgentOS: Add Agent` and fill in details
 
 ## Task Risk System
@@ -109,17 +139,17 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 ## Agent-to-Agent Task Spawning
 
-Set a high-level goal and a planning agent breaks it into subtasks for other agents:
+Set a high-level goal and a planning agent breaks it into subtasks:
 
-1. `AgentOS: Set Goal` → "Add user authentication with JWT"
-2. Planning agent creates 5 subtasks: middleware, routes, utils, tests, docs
+1. `AgentOS: Set Goal` → e.g. "Add user authentication with JWT"
+2. Planning agent creates subtasks: middleware, routes, utils, tests, docs
 3. Execution agents pick up subtasks in parallel
-4. Low-risk results auto-apply, high-risk results queue for review
-5. You watch the village while it all happens
+4. Low-risk results auto-apply; high-risk results queue for review
+5. Watch the village while it runs
 
 ## Auto-Triggers
 
-Configure `agent_os/triggers.json` to make agents react to your actions:
+Configure `agent_os/triggers.json` so agents react to your actions:
 
 - Save a `.ts` file → auto-lint
 - Write a `// TODO:` comment → auto-create task
@@ -128,7 +158,7 @@ Configure `agent_os/triggers.json` to make agents react to your actions:
 
 ## Gamification
 
-- **Energy**: 0-100 per agent. Drains with token usage, recharges over time.
+- **Energy**: 0–100 per agent. Drains with token usage, recharges over time.
 - **XP**: Earned per task. Speed bonus for fast completions.
 - **Levels**: Unlock more simultaneous tasks and priority routing.
 - **Achievements**: "First Blood", "Speed Demon", "Centurion", etc.
@@ -163,7 +193,7 @@ dashboard/          # React frontend (Vite)
 ## Supported Providers
 
 | Provider | Adapter | Examples |
-|---|---|---|
+|----------|---------|----------|
 | `openai-compatible` | Universal Adapter | OpenAI, Grok, Mistral, Groq, Together, DeepSeek, Ollama, LM Studio, vLLM |
 | `gemini` | Gemini Adapter | Google Gemini (Antigravity) |
 | `anthropic` | Anthropic Adapter | Claude |

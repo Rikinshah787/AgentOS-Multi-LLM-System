@@ -604,7 +604,9 @@ async function callModel(agent, prompt) {
   const client = new OpenAI({
     apiKey: apiKey || 'not-needed',
     baseURL: config.endpoint || 'https://api.openai.com/v1',
-    timeout: 300000, // 5-min safety net so nothing hangs forever
+    // Keep a safety net so NIM calls can't hang the whole orchestrator forever.
+    // GLM-5 has been observed to stall for long periods, so we use a lower timeout.
+    timeout: 120000,
   });
 
   const systemPrompt = buildSystemPrompt(config.name, config.role, prompt, agent.id);
@@ -619,28 +621,34 @@ async function callModel(agent, prompt) {
     temperature: 0.3,
   };
 
-  // NVIDIA NIM models need extra_body AND streaming to work
-  if (isNvidiaNim) {
-    if (config.model === 'z-ai/glm5') {
-      params.extra_body = { chat_template_kwargs: { enable_thinking: true, clear_thinking: false } };
-    } else if (config.model === 'moonshotai/kimi-k2.5') {
-      params.extra_body = { chat_template_kwargs: { thinking: true } };
-    }
-    // NIM endpoints require streaming — non-streaming hangs forever
+  // For dev simplicity, treat Kimi like other models (non-streaming),
+  // and only keep special streaming handling for GLM-5, which is known
+  // to behave better with NIM's streaming API.
+  if (isNvidiaNim && config.model === 'z-ai/glm5') {
+    params.extra_body = { chat_template_kwargs: { enable_thinking: true, clear_thinking: false } };
     params.stream = true;
     const stream = await client.chat.completions.create(params);
     let output = '';
     let tokensUsed = 0;
     for await (const chunk of stream) {
-      const delta = chunk.choices?.[0]?.delta;
-      if (delta?.content) output += delta.content;
+      const choice = chunk.choices?.[0];
+      const delta = choice?.delta || {};
+      if (delta.content) output += delta.content;
+      const reasoning = delta.reasoning_content;
+      if (Array.isArray(reasoning)) {
+        for (const part of reasoning) {
+          if (typeof part?.text === 'string') output += part.text;
+        }
+      } else if (typeof reasoning === 'string') {
+        output += reasoning;
+      }
       if (chunk.usage?.total_tokens) tokensUsed = chunk.usage.total_tokens;
     }
     if (!tokensUsed) tokensUsed = Math.ceil(output.length / 4);
     return { output: output || '(no response)', tokensUsed };
   }
 
-  // Standard non-streaming for Mistral, Groq, OpenAI, etc.
+  // Standard non-streaming for Mistral, Groq, OpenAI, Kimi, etc.
   const response = await client.chat.completions.create(params);
   const output = response.choices?.[0]?.message?.content || '(no response)';
   const tokensUsed = response.usage?.total_tokens || Math.ceil(output.length / 4);
