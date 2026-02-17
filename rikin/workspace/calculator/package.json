@@ -1,9 +1,0 @@
-{
-  "name": "calculator-collab",
-  "version": "1.0.0",
-  "description": "This file is DEPRECATED - we switched to Python. See requirements.txt",
-  "private": true,
-  "scripts": {
-    "start": "echo 'Use Python instead: python ui.py'"
-  }
-}

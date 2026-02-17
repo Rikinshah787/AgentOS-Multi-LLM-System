@@ -1,7 +1,0 @@
-{
-    "name": "task-manager",
-    "version": "1.0.0",
-    "dependencies": {
-        "pg": "^8.8.0"
-    }
-}
