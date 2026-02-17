@@ -1,0 +1,20 @@
+<!-- Add to head section -->
+<link rel="stylesheet" href="styles.css">
+
+<!-- Add before closing body tag -->
+<script src="collab.js"></script>
+<script>
+  // Initialize collaboration when WebSocket connects
+  const ws = new WebSocket(`ws://${window.location.host}`);
+  let collabEditor;
+
+  ws.onopen = () => {
+    console.log('WebSocket connected');
+    collabEditor = initCollaboration(ws);
+  };
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (collabEditor) collabEditor.cleanup();
+  });
+</script>

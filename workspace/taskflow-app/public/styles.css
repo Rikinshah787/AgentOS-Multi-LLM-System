@@ -1,0 +1,18 @@
+/* Add to existing styles.css */
+.collab-cursor {
+  transition: all 0.1s ease;
+  background-color: rgba(0, 120, 255, 0.2);
+  border-left: 2px solid #0078ff;
+}
+
+.cursor-label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background-color: #0078ff;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  white-space: nowrap;
+}

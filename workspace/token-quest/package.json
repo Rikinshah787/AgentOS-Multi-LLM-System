@@ -1,0 +1,14 @@
+{
+  "name": "token-quest",
+  "version": "1.0.0",
+  "description": "A magical CLI game with 5 usable tokens",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.11"
+  }
+}

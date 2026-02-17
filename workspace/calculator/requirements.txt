@@ -1,0 +1,5 @@
+# Calculator Dependencies
+# Pure Python - no external dependencies needed!
+# But if we add tests later:
+pytest>=7.0.0
+pytest-cov>=4.0.0

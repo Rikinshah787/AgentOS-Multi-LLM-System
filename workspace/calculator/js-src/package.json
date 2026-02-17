@@ -1,0 +1,12 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "A simple calculator module with arithmetic operations",
+  "main": "calculator.js",
+  "scripts": {
+    "start": "node calculator.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["calculator", "math", "arithmetic"],
+  "license": "MIT"
+}

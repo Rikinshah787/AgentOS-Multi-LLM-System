@@ -1,0 +1,125 @@
+{
+  "agents": [
+    {
+      "id": "gpt4",
+      "name": "GPT-4 Turbo",
+      "provider": "openai-compatible",
+      "endpoint": "https://api.openai.com/v1",
+      "apiKeyEnvVar": "OPENAI_API_KEY",
+      "model": "gpt-4-turbo",
+      "avatar": "robot-blue",
+      "role": "general",
+      "maxTokens": 4096,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "grok",
+      "name": "Grok",
+      "provider": "openai-compatible",
+      "endpoint": "https://api.x.ai/v1",
+      "apiKeyEnvVar": "XAI_API_KEY",
+      "model": "grok-2",
+      "avatar": "lightning",
+      "role": "reasoning",
+      "maxTokens": 8192,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "antigravity",
+      "name": "Antigravity (Gemini)",
+      "provider": "gemini",
+      "apiKeyEnvVar": "GOOGLE_API_KEY",
+      "model": "gemini-2.0-flash",
+      "avatar": "google-star",
+      "role": "general",
+      "maxTokens": 8192,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "claude",
+      "name": "Claude (Anthropic)",
+      "provider": "anthropic",
+      "apiKeyEnvVar": "ANTHROPIC_API_KEY",
+      "model": "claude-sonnet-4-20250514",
+      "avatar": "brain-purple",
+      "role": "code-review",
+      "maxTokens": 4096,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral Large",
+      "provider": "openai-compatible",
+      "endpoint": "https://api.mistral.ai/v1",
+      "apiKeyEnvVar": "MISTRAL_API_KEY",
+      "model": "mistral-large-latest",
+      "avatar": "wind",
+      "role": "general",
+      "maxTokens": 8192,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "kimi",
+      "name": "Kimi K2.5 (NVIDIA NIM)",
+      "provider": "openai-compatible",
+      "endpoint": "https://integrate.api.nvidia.com/v1",
+      "apiKeyEnvVar": "NVIDIA_KIMI_API_KEY",
+      "model": "moonshotai/kimi-k2.5",
+      "avatar": "eye",
+      "role": "reasoning",
+      "maxTokens": 16384,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "groq-llama",
+      "name": "Groq Llama",
+      "provider": "openai-compatible",
+      "endpoint": "https://api.groq.com/openai/v1",
+      "apiKeyEnvVar": "GROQ_API_KEY",
+      "model": "llama-3.3-70b-versatile",
+      "avatar": "fire",
+      "role": "fast-draft",
+      "maxTokens": 8192,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "glm5",
+      "name": "GLM-5 (NVIDIA NIM)",
+      "provider": "openai-compatible",
+      "endpoint": "https://integrate.api.nvidia.com/v1",
+      "apiKeyEnvVar": "NVIDIA_API_KEY",
+      "model": "z-ai/glm5",
+      "avatar": "gem",
+      "role": "reasoning",
+      "maxTokens": 16384,
+      "energyRechargeRate": 5
+    },
+    {
+      "id": "ollama-local",
+      "name": "Ollama (Local)",
+      "provider": "openai-compatible",
+      "endpoint": "http://localhost:11434/v1",
+      "apiKeyEnvVar": "",
+      "model": "llama3",
+      "avatar": "llama",
+      "role": "fast-draft",
+      "maxTokens": 4096,
+      "energyRechargeRate": 10
+    },
+    {
+      "id": "cursor-ai",
+      "name": "Cursor AI",
+      "provider": "cursor-bridge",
+      "mode": "auto",
+      "avatar": "cursor-logo",
+      "role": "planning"
+    },
+    {
+      "id": "copilot",
+      "name": "GitHub Copilot",
+      "provider": "copilot-bridge",
+      "avatar": "copilot-logo",
+      "role": "inline-completion"
+    }
+  ]
+}

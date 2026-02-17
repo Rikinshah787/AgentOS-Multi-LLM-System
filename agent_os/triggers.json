@@ -1,0 +1,51 @@
+{
+  "triggers": [
+    {
+      "event": "file:save",
+      "pattern": "src/**/*.ts",
+      "action": "lint-and-suggest",
+      "agent": "auto",
+      "risk": "low",
+      "enabled": true
+    },
+    {
+      "event": "file:save",
+      "pattern": "src/**/*.tsx",
+      "action": "lint-and-suggest",
+      "agent": "auto",
+      "risk": "low",
+      "enabled": true
+    },
+    {
+      "event": "file:save",
+      "pattern": "src/**/*.ts",
+      "action": "run-related-tests",
+      "agent": "ollama-local",
+      "risk": "low",
+      "enabled": false
+    },
+    {
+      "event": "todo:detected",
+      "pattern": "// TODO:",
+      "action": "create-task-from-todo",
+      "agent": "auto",
+      "risk": "high",
+      "enabled": true
+    },
+    {
+      "event": "file:create",
+      "pattern": "src/**/*.ts",
+      "action": "generate-tests",
+      "agent": "auto",
+      "risk": "low",
+      "enabled": false
+    },
+    {
+      "event": "git:commit",
+      "action": "generate-changelog",
+      "agent": "auto",
+      "risk": "low",
+      "enabled": false
+    }
+  ]
+}
