@@ -1,7 +1,7 @@
-# 🏘️ AgentOS — AI Village Orchestrator
+# 🏘️ AgentOS — Multi-LLM-System - 3D AI Village Orchestrator
 
 > **Connect your real LLM models and get tasks done.**  
-> Orchestrate unlimited AI models in VS Code (or Cursor). Every model with an API key becomes an agent in a gamified village dashboard.
+> Orchestrate unlimited AI models in VS Code (or Cursor). Every model with an API key becomes an agent in a gamified village dashboard all agents works together.
 
 [![Built in a day](https://img.shields.io/badge/Built_in-1_day-64ffda?style=flat-square)](https://github.com/Rikinshah787/AgentOS-Multi-LLM-System)  
 **🚧 In active development** — early release, feedback welcome!
